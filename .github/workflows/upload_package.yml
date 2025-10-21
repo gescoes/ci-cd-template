@@ -34,25 +34,25 @@ jobs:
             </servers>
             <profiles>
               <profile>
-                <id>commons</id>
+                <id>github</id>
                 <repositories>
                   <repository>
                     <id>parent</id>
                     <url>https://maven.pkg.github.com/gescoes/commons_parent</url>
                   </repository>
                   <repository>
-                    <id>backend</id>
+                    <id>github</id>
                     <url>https://maven.pkg.github.com/gescoes/common_backend</url>
                   </repository>
                   <repository>
-                    <id>model</id>
+                    <id>github</id>
                     <url>https://maven.pkg.github.com/gescoes/commons_model</url>
                   </repository>
                 </repositories>
               </profile>
             </profiles>
             <activeProfiles>
-              <activeProfile>commons</activeProfile>
+              <activeProfile>github</activeProfile>
             </activeProfiles>
           </settings>" > settings.xml
           cd ${{ inputs.module_path }}
