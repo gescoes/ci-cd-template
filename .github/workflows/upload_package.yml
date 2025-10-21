@@ -37,7 +37,7 @@ jobs:
                 <id>github</id>
                 <repositories>
                   <repository>
-                    <id>parent</id>
+                    <id>github</id>
                     <url>https://maven.pkg.github.com/gescoes/commons_parent</url>
                   </repository>
                   <repository>
