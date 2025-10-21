@@ -79,8 +79,8 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and Push Docker Image
         run: |
-          docker build -t ${inputs.docker_image}:latest ${{ inputs.module_path }}
-          docker push ${inputs.docker_image}:latest
+          docker build -t ${{ inputs.docker_image }}:latest ${{ inputs.module_path }}
+          docker push ${{ inputs.docker_image }}:latest
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v0.1.9
         with:
