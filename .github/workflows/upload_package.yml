@@ -32,6 +32,20 @@ jobs:
                 <password>${DEPLOY_TOKEN}</password>
               </server>
             </servers>
+            <profiles>
+              <profile>
+                <id>github</id>
+                <repositories>
+                  <repository>
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/gescoes</url>
+                  </repository>
+                </repositories>
+              </profile>
+            </profiles>
+            <activeProfiles>
+              <activeProfile>github</activeProfile>
+            </activeProfiles>
           </settings>" > settings.xml
           cd ${{ inputs.module_path }}
           mvn clean deploy -s settings.xml
