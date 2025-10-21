@@ -3,7 +3,7 @@ name: Deploy Microservice
 on:
   workflow_call:
     inputs:
-      micro_path:
+      module_path:
         required: true
         type: string
       docker_image:
@@ -22,8 +22,39 @@ jobs:
           distribution: temurin
       - name: Build microservice JAR
         run: |
-          cd ${{ inputs.micro_path }}
-          mvn clean package
+          echo "<settings>
+            <servers>
+              <server>
+                <id>github</id>
+                <username>${{ github.actor }}</username>
+                <password>${DEPLOY_TOKEN}</password>
+              </server>
+            </servers>
+            <profiles>
+              <profile>
+                <id>github</id>
+                <repositories>
+                  <repository>
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/gescoes/commons_parent</url>
+                  </repository>
+                  <repository>
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/gescoes/common_backend</url>
+                  </repository>
+                  <repository>
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/gescoes/commons_model</url>
+                  </repository>
+                </repositories>
+              </profile>
+            </profiles>
+            <activeProfiles>
+              <activeProfile>github</activeProfile>
+            </activeProfiles>
+          </settings>" > settings.xml
+          cd ${{ inputs.module_path }}
+          mvn clean package -s settings.xml
       - name: Login to Docker
         uses: docker/login-action@v2
         with:
@@ -32,7 +63,7 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           IMAGE_TAG=${GITHUB_SHA}
-          docker build -t ${inputs.docker_image}:${IMAGE_TAG} ${{ inputs.micro_path }}
+          docker build -t ${inputs.docker_image}:${IMAGE_TAG} ${{ inputs.module_path }}
           docker push ${inputs.docker_image}:${IMAGE_TAG}
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v0.1.9
