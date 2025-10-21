@@ -24,13 +24,13 @@ jobs:
               <server>
                 <id>github</id>
                 <username>${{ github.actor }}</username>
-                <password>${{ secrets.DEPLOY_TOKEN }}</password>
+                <password>${{ secrets.PACKAGE_PAT }}</password>
               </server>
             </servers>
           </settings>" > settings.xml
           cd ${{ inputs.module_path }}
           mvn clean deploy -s settings.xml
         env:
-          DEPLOY_TOKEN: ${{ secrets.PACKAGE_PAT }}
+          PACKAGE_PAT: ${{ secrets.PACKAGE_PAT }}
 
       
