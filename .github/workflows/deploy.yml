@@ -9,6 +9,21 @@ on:
       docker_image:
         required: true
         type: string
+    secrets:
+      DEPLOY_TOKEN:
+        required: true
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
+      VPS_HOST:
+        required: true
+      VPS_PORT:
+        required: true
+      VPS_USER:
+        required: true
+      VPS_SSH_KEY:
+        required: true
 
 jobs:
   deploy-micro:
