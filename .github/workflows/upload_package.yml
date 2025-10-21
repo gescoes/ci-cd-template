@@ -17,7 +17,20 @@ jobs:
         with:
           java-version: 21
           distribution: temurin
-      - name: Deploy module to GitHub Packages
+      - name: Deploy to GitHub Packages
         run: |
+          echo "<settings>
+            <servers>
+              <server>
+                <id>github</id>
+                <username>${{ github.actor }}</username>
+                <password>${{ secrets.GITHUB_TOKEN }}</password>
+              </server>
+            </servers>
+          </settings>" > settings.xml
           cd ${{ inputs.module_path }}
-          mvn clean deploy
+          mvn clean deploy -s settings.xml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      
