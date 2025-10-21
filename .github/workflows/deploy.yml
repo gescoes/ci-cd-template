@@ -21,6 +21,8 @@ jobs:
           java-version: 21
           distribution: temurin
       - name: Build microservice JAR
+        env:
+          DEPLOY_TOKEN: ${{ secrets.PACKAGE_PAT }}
         run: |
           echo "<settings>
             <servers>
