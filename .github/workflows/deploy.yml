@@ -62,7 +62,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and Push Docker Image
         run: |
-          IMAGE_TAG=${GITHUB_SHA}
           docker build -t ${inputs.docker_image}:latest ${{ inputs.module_path }}
           docker push ${inputs.docker_image}:latest
       - name: Deploy to VPS
