@@ -96,7 +96,6 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            docker compose down
-            docker compose pull
-            docker compose up -d --force-recreate
+            docker compose pull ${{ inputs.service_name }}
+            docker compose up -d --force-recreate ${{ inputs.service_name }}
             docker image prune -a -f
