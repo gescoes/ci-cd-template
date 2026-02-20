@@ -71,6 +71,11 @@ jobs:
             </activeProfiles>
           </settings>" > settings.xml
           mvn clean package -s settings.xml
+      - name: Extract Maven version
+        id: project_version
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout -f ${{ inputs.module_path }}/pom.xml)
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
       - name: Login to Docker
         uses: docker/login-action@v2
         with:
@@ -78,5 +83,12 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and Push Docker Image
         run: |
-          docker build -t ${{ inputs.docker_image }}:latest ${{ inputs.module_path }}
-          docker push ${{ inputs.docker_image }}:latest
+          VERSION=${{ steps.project_version.outputs.VERSION }}
+          IMAGE_NAME=${{ inputs.docker_image }}
+          
+          echo "Building image version: $VERSION"
+          
+          docker build -t $IMAGE_NAME:latest -t $IMAGE_NAME:$VERSION ${{ inputs.module_path }}
+          
+          docker push $IMAGE_NAME:latest
+          docker push $IMAGE_NAME:$VERSION
