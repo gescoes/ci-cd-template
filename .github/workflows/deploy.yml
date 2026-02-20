@@ -74,7 +74,8 @@ jobs:
       - name: Extract Maven version
         id: project_version
         run: |
-          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout -f ${{ inputs.module_path }}/pom.xml)
+          cd ${{ inputs.module_path }}
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout -s settings.xml)
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
       - name: Login to Docker
         uses: docker/login-action@v2
